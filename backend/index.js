@@ -1,17 +1,30 @@
-const express = require('express')
-const cors = require(cors)
-const noteRoutes = require('./routes/noteRoutes');
+const express = require('express');
+const session = require('express-session');
+// const cors = require(cors);
+const passport = require('./config/passport.config');
+const connectDB = require('./config/db.config');
+require('dotenv').config();
+connectDB()
 
 const app = express()
 const port = 3000
 
-app.use(cors())
+// app.use(cors())
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+// Middleware
+app.use(express.json());
+app.use(
+  session({
+    secret: process.env.JWT_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.use('/notes', noteRoutes);
+app.use('',require('./controller/auth.controller'))
+app.use('notes',require('./controller/note.controller'))
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
