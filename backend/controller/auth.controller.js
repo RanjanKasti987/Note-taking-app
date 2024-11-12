@@ -12,9 +12,9 @@ router.get(
       // Redirect to the frontend  after successful login
       res.redirect('/dashboard');
     }
-  );
+);
   
-  // Logout route
+// Logout route
   router.get('/logout', (req, res) => {
     req.logout((err) => {
       if (err) {
@@ -22,7 +22,7 @@ router.get(
       }
       res.redirect('/');
     });
-  });
+});
 
 
   module.exports = router;
