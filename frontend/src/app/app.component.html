@@ -1,9 +1,39 @@
-<main class="main">
-  Note taking App
-  <div>
-    <h2>Please log in with GitHub</h2>
-    <button (click)="handleLogin()">Login with GitHub</button>
-  </div>
-</main>
+<div
+  *ngIf="isLoggingLoading"
+  class="h-screen grid w-full place-items-center items-center"
+>
+  <div
+    class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500 mx-auto"
+  ></div>
+</div>
 
-<router-outlet />
+<div
+  *ngIf="!isLoggedIn && !isLoggingLoading"
+  class="h-screen grid w-full place-items-center items-center"
+>
+  <div class="mx-auto">
+    <button
+      (click)="handleLogin()"
+      class="bg-[#000] text-white w-fit px-4 py-2 rounded"
+    >
+      Login with Github
+    </button>
+  </div>
+  <div class="text-center">
+    <img class="w-10 mx-auto" src="./assets/note.png" alt="" />
+    <p class="text-[10px]">Markdown note taking app</p>
+  </div>
+</div>
+
+<div *ngIf="isLoggedIn && !isLoggingLoading" class="md:w-[60%] mx-auto">
+  <div class="flex h-screen flex-col sm:flex-row">
+    <app-header
+      [profile]="profile"
+      (clearProfile)="clearProfile()"
+    ></app-header>
+
+    <main class="flex-1 md:ml-[100px]">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

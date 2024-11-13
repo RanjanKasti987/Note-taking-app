@@ -1,28 +1,29 @@
-const express = require('express');
-const passport = require('passport');
+const express = require("express");
+const passport = require("passport");
 const router = express.Router();
 
-router.get('/github', passport.authenticate('github', { scope: ['user:email'] }));
+router.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user:email"] })
+);
 
 // GitHub callback URL
 router.get(
-    '/github/callback',
-    passport.authenticate('github', { failureRedirect: '/' }),
-    (req, res) => {
-      // Redirect to the frontend  after successful login
-      res.redirect('/dashboard');
-    }
+  "/callback",
+  passport.authenticate("github", { failureRedirect: "/" }),
+  (req, res) => {
+    res.redirect("http://localhost:4200/");
+  }
 );
-  
+
 // Logout route
-  router.get('/logout', (req, res) => {
-    req.logout((err) => {
-      if (err) {
-        return res.status(500).json({ message: 'Failed to logout', error: err });
-      }
-      res.redirect('/');
-    });
+router.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("http://localhost:4200/");
+  });
 });
 
-
-  module.exports = router;
+module.exports = router;
