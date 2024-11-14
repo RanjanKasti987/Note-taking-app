@@ -39,13 +39,16 @@ app.use(passport.session());
 // app.use("/", (req, res, next) => {
 //   res.send("Hello World!");
 // });
+
+app.use("/check-auth", auth, (req, res) => {
+  res.status(200).json({ message: "You are authenticated" });
+});
 app.use("/auth", require("./controller/auth.controller"));
 app.use("/notes", require("./controller/note.controller"));
 app.use("/me", auth, async (req, res) => {
   const userId = req.user._id;
 
   try {
-    console.log(userId);
     const user = await User.findById(userId);
     console.log(user);
     res.status(200).json(user);
@@ -53,7 +56,6 @@ app.use("/me", auth, async (req, res) => {
     res.status(500).json({ message: "Failed to retrieve user", error });
   }
 });
-
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

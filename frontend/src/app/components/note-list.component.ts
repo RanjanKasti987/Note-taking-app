@@ -36,14 +36,11 @@ export class NoteListComponent {
     });
 
     this.searchValue.valueChanges
-      .pipe(
-        debounceTime(300), // Adjust debounce time as needed
-        distinctUntilChanged()
-      )
+      .pipe(debounceTime(300), distinctUntilChanged())
       .subscribe((searchTerm) => {
         this.notes = this.noteList.filter((note) =>
           note.title.toLowerCase().includes(searchTerm.toLowerCase())
-        ); // Filter notes on input change
+        );
       });
   }
 

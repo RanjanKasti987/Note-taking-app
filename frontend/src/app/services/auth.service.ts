@@ -21,6 +21,12 @@ export class AuthService {
     });
   }
 
+  checkAuth() {
+    return this.httpClient.get(`${environment.BACKEND_URL}/check-auth`, {
+      withCredentials: true,
+    });
+  }
+
   logout() {
     return this.httpClient
       .get(`${environment.BACKEND_URL}/auth/logout`, { withCredentials: true })

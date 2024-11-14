@@ -40,11 +40,19 @@ export class AppComponent {
 
   ngOnInit() {
     this.isLoggingLoading = true;
-    this.authService.getMe().subscribe({
-      next: (data: any) => {
-        this.profile = data;
-        this.isLoggedIn = true;
-        this.isLoggingLoading = false;
+    this.authService.checkAuth().subscribe({
+      next: () => {
+        this.authService.getMe().subscribe({
+          next: (data: any) => {
+            this.profile = data;
+            this.isLoggedIn = true;
+            this.isLoggingLoading = false;
+          },
+          error: () => {
+            this.clearProfile();
+            this.isLoggingLoading = false;
+          },
+        });
       },
       error: () => {
         this.clearProfile();
